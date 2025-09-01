@@ -1,20 +1,38 @@
 plugins {
-    id 'java'
+	id 'java'
+	id 'com.diffplug.spotless' version '7.2.1'
 }
 
 group = 'io.zestledger'
 version = '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+}
+
+spotless {
+	ratchetFrom 'origin/main'
+
+	format 'misc', {
+		target '*.md', '.gitignore', '*.yml', '*.yaml', '*.gradle', '*.txt'
+		trimTrailingWhitespace()
+		leadingSpacesToTabs()
+		endWithNewline()
+	}
+	java {
+		googleJavaFormat('1.28.0').aosp()
+		formatAnnotations()
+		importOrder()
+		removeUnusedImports()
+	}
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation platform('org.junit:junit-bom:5.10.0')
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
