@@ -63,4 +63,16 @@ jacocoTestCoverageVerification {
 	}
 }
 
+pitest {
+	junit5PluginVersion = '1.2.1'
+	mutators = ['STRONGER']
+	timeoutConstInMillis = 4000
+	timestampedReports = false
+	mutationThreshold = 70
+	targetClasses = ['io.zestledger.*']
+	threads = 4
+	outputFormats = ['HTML', 'XML']
+	failWhenNoMutations = false
+}
+
 check.dependsOn jacocoTestReport, jacocoTestCoverageVerification
