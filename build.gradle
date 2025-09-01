@@ -1,6 +1,8 @@
 plugins {
 	id 'java'
 	id 'com.diffplug.spotless' version '7.2.1'
+	id 'jacoco'
+	id 'info.solidsoft.pitest' version '1.19.0-rc.1'
 }
 
 group = 'io.zestledger'
@@ -11,8 +13,6 @@ repositories {
 }
 
 spotless {
-	ratchetFrom 'origin/main'
-
 	format 'misc', {
 		target '*.md', '.gitignore', '*.yml', '*.yaml', '*.gradle', '*.txt'
 		trimTrailingWhitespace()
@@ -27,6 +27,11 @@ spotless {
 	}
 }
 
+jacoco {
+	toolVersion = "0.8.13"
+	reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
 dependencies {
 	testImplementation platform('org.junit:junit-bom:5.10.0')
 	testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -35,4 +40,39 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.85
+			}
+		}
+	}
+}
+
+tasks.register('jacocoTest') {
+	dependsOn 'test', 'jacocoTestReport', 'jacocoTestCoverageVerification'
+}
+
+pitest {
+	junit5PluginVersion = '1.2.1'
+	mutators = ['STRONGER']
+	timeoutConstInMillis = 4000
+	timestampedReports = false
+	mutationThreshold = 70
+	targetClasses = ['io.zestledger.*']
+	threads = 4
+	outputFormats = ['HTML', 'XML']
+	failWhenNoMutations = false
 }
