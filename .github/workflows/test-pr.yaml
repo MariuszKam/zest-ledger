@@ -1,0 +1,62 @@
+name: test-pr
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.java'
+      - 'build.gradle*'
+      - 'settings.gradle*'
+      - 'gradle/**'
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  JACOCO-PR:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle and generate JaCoCo report
+        run: ./gradlew --no-daemon check
+      - name: Upload JaCoCo report artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: jacoco-report
+          path: build/reports/jacoco/test/html
+
+  PIT-PR:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: PIT
+        run: ./gradlew --no-daemon pitest
+      - name: Upload PIT report
+        uses: actions/upload-artifact@v5
+        with:
+          name: pitest-report
+          path: build/reports/pitest
+
