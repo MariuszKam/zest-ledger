@@ -15,7 +15,7 @@ Not runnable yet. Instructions will appear once the first endpoints are added.
 - M0: Repo & pipeline foundations
 - M1: Identity & Access (TBD)
 
-## Conventional Commits 
+## Conventional Commits
 - `feat(rest): add create user endpoint`
 - `fix(domain): handle invalid email`
 - `docs(readme): seed project overview`
