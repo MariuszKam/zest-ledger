@@ -61,6 +61,10 @@ jacocoTestCoverageVerification {
 	}
 }
 
+tasks.register('jacocoTest') {
+	dependsOn 'test', 'jacocoTestReport', 'jacocoTestCoverageVerification'
+}
+
 pitest {
 	junit5PluginVersion = '1.2.1'
 	mutators = ['STRONGER']
@@ -72,5 +76,3 @@ pitest {
 	outputFormats = ['HTML', 'XML']
 	failWhenNoMutations = false
 }
-
-check.dependsOn jacocoTestReport, jacocoTestCoverageVerification

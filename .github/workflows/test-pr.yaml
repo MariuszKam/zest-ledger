@@ -30,7 +30,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle and generate JaCoCo report
-        run: ./gradlew --no-daemon check
+        run: ./gradlew --no-daemon jacocoTest
       - name: Upload JaCoCo report artifact
         uses: actions/upload-artifact@v4
         with:
