@@ -1,10 +1,12 @@
 {
   "name": "zestledger",
   "version": "1.0.0",
+  "type": "module",
   "description": "*Energy for your numbers.* ⚡️📒⚡️",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "commitlint": "commitlint --edit",
     "prepare": "husky"
   },
   "repository": {
@@ -19,6 +21,8 @@
   },
   "homepage": "https://github.com/MariuszKam/zestledger#readme",
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "husky": "^9.1.7"
   }
 }
