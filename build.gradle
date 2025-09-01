@@ -1,6 +1,8 @@
 plugins {
 	id 'java'
 	id 'com.diffplug.spotless' version '7.2.1'
+	id 'jacoco'
+	id 'info.solidsoft.pitest' version '1.19.0-rc.1'
 }
 
 group = 'io.zestledger'
@@ -27,6 +29,11 @@ spotless {
 	}
 }
 
+jacoco {
+	toolVersion = "0.8.13"
+	reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
 dependencies {
 	testImplementation platform('org.junit:junit-bom:5.10.0')
 	testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -35,4 +42,25 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = false
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.85
+			}
+		}
+
+		rule {}
+	}
 }
