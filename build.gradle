@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.diffplug.spotless' version '7.2.1'
 }
 
 group = 'io.zestledger'
@@ -7,6 +8,23 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+spotless {
+    ratchetFrom 'origin/main'
+
+    format 'misc', {
+        target '*.md', '.gitignore', '*.yml', '*.yaml', '*.gradle', '*.txt'
+        trimTrailingWhitespace()
+        leadingSpacesToTabs()
+        endWithNewline()
+    }
+    java {
+        googleJavaFormat('1.28.0').aosp()
+        formatAnnotations()
+        importOrder()
+        removeUnusedImports()
+    }
 }
 
 dependencies {
