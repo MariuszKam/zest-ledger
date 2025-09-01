@@ -1,0 +1,24 @@
+{
+  "name": "zestledger",
+  "version": "1.0.0",
+  "description": "*Energy for your numbers.* ⚡️📒⚡️",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MariuszKam/zestledger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MariuszKam/zestledger/issues"
+  },
+  "homepage": "https://github.com/MariuszKam/zestledger#readme",
+  "dependencies": {
+    "husky": "^9.1.7"
+  }
+}
