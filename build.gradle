@@ -1,12 +1,16 @@
 plugins {
-	id 'java'
-	id 'com.diffplug.spotless' version '7.2.1'
-	id 'jacoco'
-	id 'info.solidsoft.pitest' version '1.19.0-rc.1'
+	alias(libs.plugins.java)
+	alias(libs.plugins.spotless)
+	alias(libs.plugins.jacoco)
+	alias(libs.plugins.pitest)
 }
 
 group = 'io.zestledger'
 version = '1.0-SNAPSHOT'
+
+java {
+	toolchain { languageVersion = JavaLanguageVersion.of(libs.versions.jdk.get().toInteger()) }
+}
 
 repositories {
 	mavenCentral()
@@ -20,7 +24,7 @@ spotless {
 		endWithNewline()
 	}
 	java {
-		googleJavaFormat('1.28.0').aosp()
+		googleJavaFormat(libs.versions.gjf.get()).aosp()
 		formatAnnotations()
 		importOrder()
 		removeUnusedImports()
@@ -28,20 +32,21 @@ spotless {
 }
 
 jacoco {
-	toolVersion = "0.8.13"
+	toolVersion = libs.versions.jacoco
 	reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 
 dependencies {
-	testImplementation platform('org.junit:junit-bom:5.10.0')
-	testImplementation 'org.junit.jupiter:junit-jupiter'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation platform(libs.junit.bom)
+	testImplementation libs.junit.jupiter
+	testRuntimeOnly libs.junit.platform.launcher
 }
 
 test {
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport
 }
+
 jacocoTestReport {
 	dependsOn test
 	reports {
@@ -66,7 +71,7 @@ tasks.register('jacocoTest') {
 }
 
 pitest {
-	junit5PluginVersion = '1.2.1'
+	junit5PluginVersion = libs.versions.pitJunit
 	mutators = ['STRONGER']
 	timeoutConstInMillis = 4000
 	timestampedReports = false
