@@ -1,1 +1,8 @@
 rootProject.name = 'zestledger'
+
+include 'modules:domain'
+include 'modules:application'
+include 'modules:adapters-in:rest'
+include 'modules:adapters-out:db'
+include 'modules:platform'
+include 'modules:architecture-tests'
