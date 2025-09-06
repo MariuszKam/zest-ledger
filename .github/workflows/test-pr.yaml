@@ -19,6 +19,8 @@ jobs:
   JACOCO-PR:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
       - name: Java&Gradle Setup
         uses: ./.github/actions/gradle-bootstrap
       - name: Build with Gradle and generate JaCoCo report
@@ -34,6 +36,8 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
       - name: Java&Gradle Setup
         uses: ./.github/actions/gradle-bootstrap
       - name: PIT

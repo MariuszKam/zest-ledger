@@ -8,8 +8,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout Code
-      uses: actions/checkout@v5
     - name: Wrapper Validation
       uses: gradle/wrapper-validation-action@v3
     - name: Set up JDK 21

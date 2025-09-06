@@ -1,0 +1,23 @@
+[versions]
+jdk = "21"
+spotless = "7.2.1"
+pitest = "1.19.0-rc.1"
+jacoco = "0.8.13"
+junit = "5.10.0"
+pitJunit = "1.2.1"
+gjf = "1.28.0"
+
+[libraries]
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+[bundles]
+
+
+[plugins]
+java = { id = "java" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+jacoco = { id = "jacoco" }
+pitest = { id = "info.solidsoft.pitest", version.ref = "pitest" }
+
