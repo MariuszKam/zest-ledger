@@ -20,7 +20,6 @@ spotless {
 	format 'misc', {
 		target '*.md', '.gitignore', '*.yml', '*.yaml', '*.gradle', '*.txt'
 		trimTrailingWhitespace()
-		leadingSpacesToTabs()
 		endWithNewline()
 	}
 	java {
