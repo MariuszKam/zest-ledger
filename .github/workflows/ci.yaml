@@ -29,10 +29,16 @@ jobs:
         id: shared
         with:
           filters: .github/filters-shared.yaml
-      - name: Checkout module
+
+  check:
+    runs-on: ubuntu-latest
+    needs: changes
+    steps:
+      - name: Checking chenges
         run: |
-          echo "result: ${{ steps.filter.outputs.modules }}"
-          echo "condition: ${{ steps.filter.outputs.modules != '' }}"
+          echo "result: ${{ needs.changes.outputs.modules }}"
+          echo "condition: ${{ needs.changes.outputs.modules != '' }}"
+          echo "condition: ${{ needs.changes.outputs.modules != '[]' }}"
 
   spotless:
     runs-on: ubuntu-latest
