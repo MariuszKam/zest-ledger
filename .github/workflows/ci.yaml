@@ -30,16 +30,6 @@ jobs:
         with:
           filters: .github/filters-shared.yaml
 
-  check:
-    runs-on: ubuntu-latest
-    needs: changes
-    steps:
-      - name: Checking chenges
-        run: |
-          echo "result: ${{ needs.changes.outputs.modules }}"
-          echo "condition: ${{ needs.changes.outputs.modules != '' }}"
-          echo "condition: ${{ needs.changes.outputs.modules != '[]' }}"
-
   spotless:
     runs-on: ubuntu-latest
     steps:
