@@ -1,0 +1,7 @@
+shared:
+  - 'build-logic/**/*'
+  - 'gradle/**/*'
+  - 'gradle.properties'
+  - 'settings.gradle.kts'
+  - 'build.gradle.kts'
+  - 'modules/platform/**/*'

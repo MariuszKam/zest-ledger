@@ -5,14 +5,35 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      filters: ${{ steps.shared.outputs.changes }}
+      modules: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: .github/filters-quality.yaml
+      - uses: dorny/paths-filter@v3
+        id: shared
+        with:
+          filters: .github/filters-shared.yaml
+
   spotless:
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.modules != '[]' && needs.changes.outputs.filters != '[]' }}
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
@@ -23,22 +44,19 @@ jobs:
   quality:
     name: quality • ${{ matrix.module }}
     runs-on: ubuntu-latest
-    needs: spotless
+    needs: changes
+    if: ${{ needs.changes.outputs.modules != '[]' }}
     strategy:
       fail-fast: false
       matrix:
-        module:
-          - modules:domain
-          - modules:application
-          - modules:adapters-in:rest
-          - modules:adapters-out:db
+        module: ${{ fromJSON(needs.changes.outputs.modules) }}
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
         uses: ./.github/actions/gradle-bootstrap
       - uses: gradle/actions/setup-gradle@v4
       - name: Unit + JaCoCo
-        run: ./gradlew :${{ matrix.module }}:jacocoTest --stacktrace
+        run: ./gradlew :${{ matrix.module }}:check --stacktrace
       - name: Upload unit reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -60,6 +78,7 @@ jobs:
     name: architecture-tests
     runs-on: ubuntu-latest
     needs: spotless
+    if: ${{ needs.changes.outputs.modules != '[]' && needs.changes.outputs.filters != '[]' }}
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
@@ -73,3 +92,17 @@ jobs:
           name: archtests
           path: modules/architecture-tests/build/reports/tests/test/**/*
           if-no-files-found: ignore
+
+  summary:
+    name: summary
+    runs-on: ubuntu-latest
+    needs: [ changes, spotless, quality, archtests ]
+    if: always()
+    steps:
+      - name: Plan
+        run: |
+          echo "filters: ${{ needs.changes.outputs.filters }}"
+          echo "modules: ${{ needs.changes.outputs.modules }}"
+      - name: Check if any job failed
+        if: ${{ needs.spotless.result == 'failure' || needs.quality.result == 'failure' || needs.archtests.result == 'failure' }}
+        run: exit 1

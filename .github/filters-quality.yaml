@@ -1,0 +1,8 @@
+modules:domain:
+  - 'modules/domain/**/*'
+modules:application:
+  - 'modules/application/**/*'
+modules:adapters-in:rest:
+  - 'modules/adapters-in/rest/**/*'
+modules:adapters-out:db:
+  - 'modules/adapters-out/db/**/*'
