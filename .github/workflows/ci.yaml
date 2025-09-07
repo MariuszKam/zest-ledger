@@ -15,6 +15,7 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
+      filters: ${{ steps.shared.outputs.changes }}
       modules: ${{ steps.filter.outputs.changes }}
     steps:
       - uses: actions/checkout@v5
@@ -24,8 +25,10 @@ jobs:
         id: filter
         with:
           filters: .github/filters-quality.yaml
-
-
+      - uses: dorny/paths-filter@v3
+        id: shared
+        with:
+          filters: .github/filters-shared.yaml
 
   spotless:
     runs-on: ubuntu-latest
@@ -50,7 +53,7 @@ jobs:
         uses: ./.github/actions/gradle-bootstrap
       - uses: gradle/actions/setup-gradle@v4
       - name: Unit + JaCoCo
-        run: ./gradlew :${{ matrix.module }}:jacocoTest --stacktrace
+        run: ./gradlew :${{ matrix.module }}:check --stacktrace
       - name: Upload unit reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -85,3 +88,24 @@ jobs:
           name: archtests
           path: modules/architecture-tests/build/reports/tests/test/**/*
           if-no-files-found: ignore
+
+  summary:
+    name: summary
+    runs-on: ubuntu-latest
+    needs: [ changes, spotless, quality, archtests ]
+    if: always()
+    steps:
+      - name: Plan
+        run: |
+          echo "filters: ${{ needs.changes.outputs.filters }}"
+          echo "modules: ${{ needs.changes.outputs.modules }}"
+      - name: Evaluate
+        shell: bash
+        run: |
+          fail=0
+          for j in spotless quality archtests; do
+            r="${{ needs[j].result || 'skipped' }}"
+            echo "$j -> $r"
+            [[ "$r" == "failure" ]] && fail=1
+          done
+          exit $fail
