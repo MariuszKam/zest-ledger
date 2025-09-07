@@ -32,7 +32,7 @@ jobs:
       - name: Checkout module
         run: |
           echo "result: ${{ needs.changes.outputs.modules }}"
-          echo "condition: ${{ needs.changes.outputs.modules != '' }}"
+          echo "condition: ${{ needs.changes.outputs.modules != '[]' }}"
 
   spotless:
     runs-on: ubuntu-latest
