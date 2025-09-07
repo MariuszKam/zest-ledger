@@ -43,7 +43,7 @@ jobs:
     name: quality • ${{ matrix.module }}
     runs-on: ubuntu-latest
     needs: [changes, spotless]
-    if: ${{ fromJSON(needs.changes.outputs.modules) != [] }}
+    if: ${{ fromJSON(needs.changes.outputs.modules) != '[]' }}
     strategy:
       fail-fast: false
       matrix:
