@@ -1,0 +1,7 @@
+deps:
+  - 'gradle/libs.versions.toml'
+  - 'gradle/**/*.toml'
+  - 'settings.gradle.kts'
+  - '**/build.gradle.kts'
+  - '**/gradle.properties'
+  - 'build-logic/**'

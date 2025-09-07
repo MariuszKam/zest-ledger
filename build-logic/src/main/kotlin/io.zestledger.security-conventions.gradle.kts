@@ -12,8 +12,14 @@ dependencyCheck {
 		ReportGenerator.Format.JSON.toString()
 	)
 	failBuildOnCVSS = 9.0f
+
+	nvd {
+		apiKey = System.getenv("NVD_API_KEY")
+	}
 }
 
-tasks.named("check") {
-	dependsOn("dependencyCheckAnalyze", "cyclonedxBom")
+val securityGate = tasks.register("securityGate") {
+	group = "verification"
+	description = "Runs OWASP Dependency-Check (aggregate) and generates CycloneDX SBOM"
+	dependsOn("dependencyCheckAggregate", "cyclonedxBom")
 }
