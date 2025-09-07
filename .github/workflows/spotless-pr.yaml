@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Spotless-PR:
+  spotless:
     runs-on: ubuntu-latest
     permissions:
       contents: read
