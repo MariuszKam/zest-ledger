@@ -20,10 +20,20 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
 	violationRules {
-		rule { limit { minimum = "0.85".toBigDecimal() } }
+		rule {
+			limit {
+				counter = "LINE"
+				value = "COVEREDRATIO"
+				minimum = "0.85".toBigDecimal()
+			}
+		}
 	}
 }
 
 tasks.register("jacocoTest") {
 	dependsOn("test", "jacocoTestReport", "jacocoTestCoverageVerification")
+}
+
+tasks.named("check") {
+	dependsOn("jacocoTest")
 }

@@ -33,7 +33,7 @@ jobs:
   spotless:
     runs-on: ubuntu-latest
     needs: changes
-    if: ${{ needs.changes.outputs.modules != '[]' && needs.changes.outputs.filters != '[]' }}
+    if: ${{ needs.changes.outputs.modules != '[]' || needs.changes.outputs.filters != '[]' }}
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
@@ -64,6 +64,7 @@ jobs:
           name: tests-${{ matrix.module }}
           path: ${{ matrix.module }}/build/reports/tests/test/**/*
           if-no-files-found: ignore
+          retention-days: 7
       - name: Upload JaCoCo reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,12 +74,44 @@ jobs:
             ${{ matrix.module }}/build/reports/jacoco/test/**/*
             ${{ matrix.module }}/build/jacoco/**/*
           if-no-files-found: ignore
+          retention-days: 7
+
+  pit:
+    name: pit • ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.modules != '[]' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJSON(needs.changes.outputs.modules) }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Gradle wrapper + JDK
+        uses: ./.github/actions/gradle-bootstrap
+      - uses: gradle/actions/setup-gradle@v4
+      - name: PIT compute
+        id: cpu
+        run: echo "threads=$(nproc --all)" >> "$GITHUB_OUTPUT"
+      - name: Run PIT
+        run: |
+          ./gradlew :${{ matrix.module }}:pitest --stacktrace \
+          -Dpitest.threads=${{ steps.cpu.outputs.threads }} \
+          -Dpitest.timestampedReports=false
+      - name: Upload PIT reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pit-${{ matrix.module }}
+          path: ${{ matrix.module }}/build/reports/pitest/**/*
+          if-no-files-found: ignore
+          retention-days: 7
 
   archtests:
     name: architecture-tests
     runs-on: ubuntu-latest
     needs: spotless
-    if: ${{ needs.changes.outputs.modules != '[]' && needs.changes.outputs.filters != '[]' }}
+    if: ${{ needs.changes.outputs.modules != '[]' || needs.changes.outputs.filters != '[]' }}
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
@@ -92,11 +125,12 @@ jobs:
           name: archtests
           path: modules/architecture-tests/build/reports/tests/test/**/*
           if-no-files-found: ignore
+          retention-days: 7
 
   summary:
     name: summary
     runs-on: ubuntu-latest
-    needs: [ changes, spotless, quality, archtests ]
+    needs: [ changes, spotless, quality, archtests, pit ]
     if: always()
     steps:
       - name: Plan
@@ -104,5 +138,5 @@ jobs:
           echo "filters: ${{ needs.changes.outputs.filters }}"
           echo "modules: ${{ needs.changes.outputs.modules }}"
       - name: Check if any job failed
-        if: ${{ needs.spotless.result == 'failure' || needs.quality.result == 'failure' || needs.archtests.result == 'failure' }}
+        if: ${{ needs.spotless.result == 'failure' || needs.quality.result == 'failure' || needs.archtests.result == 'failure' || needs.pit.result == 'failure' }}
         run: exit 1
