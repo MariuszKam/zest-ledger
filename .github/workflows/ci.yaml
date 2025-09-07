@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print raw JSON
-        run: echo "filters=${{ needs.changes.outputs.filters }}"
+        run: echo "filters=${{ needs.changes.outputs.modules }}"
       - name: Pretty print + count
         env:
           FILTERS: ${{ needs.changes.outputs.filters }}
