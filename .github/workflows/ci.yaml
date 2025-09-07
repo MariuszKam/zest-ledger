@@ -64,6 +64,7 @@ jobs:
           name: tests-${{ matrix.module }}
           path: ${{ matrix.module }}/build/reports/tests/test/**/*
           if-no-files-found: ignore
+          retention-days: 7
       - name: Upload JaCoCo reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,6 +74,7 @@ jobs:
             ${{ matrix.module }}/build/reports/jacoco/test/**/*
             ${{ matrix.module }}/build/jacoco/**/*
           if-no-files-found: ignore
+          retention-days: 7
 
   pit:
     name: pit • ${{ matrix.module }}
@@ -96,6 +98,7 @@ jobs:
           name: pit-${{ matrix.module }}
           path: ${{ matrix.module }}/build/reports/pitest/**/*
           if-no-files-found: ignore
+          retention-days: 7
 
   archtests:
     name: architecture-tests
@@ -115,6 +118,7 @@ jobs:
           name: archtests
           path: modules/architecture-tests/build/reports/tests/test/**/*
           if-no-files-found: ignore
+          retention-days: 7
 
   summary:
     name: summary
