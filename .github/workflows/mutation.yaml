@@ -17,8 +17,8 @@ jobs:
       fail-fast: false
       matrix:
         module:
-          - modules/domain
-          - modules/application
+          - modules:domain
+          - modules:application
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
