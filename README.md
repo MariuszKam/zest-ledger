@@ -6,8 +6,14 @@ Public learning project (Java 21). I run small weekend sprints and learn by buil
 Inspired by Clean Architecture, DDD, and TDD.
 
 ## Status
-M0 – repository foundations (Gradle wrapper, `.gitignore`, simple structure). Application code will arrive in later sprints.
+**M0 — Foundation in progress. What’s done (in a nutshell):**
+- Multi‑module skeleton in place (`domain`, `application`, `adapters-in/rest`, `adapters-out/db`, `platform`, `architecture-tests`).
+- Shared Gradle conventions: Spotless (AOSP), JaCoCo, PIT, OWASP Dependency‑Check, CycloneDX (via `build-logic/`).
+- CI set up: base `ci.yaml` (build/tests/mutation) and separate `security.yaml` (Dependency‑Check + SBOM).
+- PR hygiene: Conventional Commits, semantic‑PR check, commitlint + husky.
+- Tooling: Java 21 toolchain, version catalog, baseline `.gitignore`.
 
+Service not runnable yet — Spring Boot/Actuator wiring planned next.
 ## How to run
 Not runnable yet. Instructions will appear once the first endpoints are added.
 
