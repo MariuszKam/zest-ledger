@@ -1,0 +1,17 @@
+shared:
+  - 'build-logic/**/*'
+  - 'gradle/**/*'
+  - 'gradle.properties'
+  - 'settings.gradle.kts'
+  - 'build.gradle.kts'
+  - 'modules/platform/**/*'
+domain:
+  - 'modules/domain/**/*'
+application:
+  - 'modules/application/**/*'
+rest:
+  - 'modules/adapters-in/rest/**/*'
+db:
+  - 'modules/adapters-out/db/**/*'
+arch:
+  - 'modules/architecture-tests/**/*'

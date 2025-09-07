@@ -11,6 +11,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: .github/filters.yaml
+
+  inspect:
+    needs: changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print raw JSON
+        run: echo "filters=${{ needs.changes.outputs.filters }}"
+      - name: Pretty print + count
+        env:
+          FILTERS: ${{ needs.changes.outputs.filters }}
+        run: |
+          echo "$FILTERS" | jq -r .
+          echo "count: $(echo "$FILTERS" | jq -r 'length')"
+
+
   spotless:
     runs-on: ubuntu-latest
     steps:
