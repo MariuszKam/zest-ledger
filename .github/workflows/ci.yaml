@@ -99,13 +99,6 @@ jobs:
         run: |
           echo "filters: ${{ needs.changes.outputs.filters }}"
           echo "modules: ${{ needs.changes.outputs.modules }}"
-      - name: Evaluate
-        shell: bash
-        run: |
-          fail=0
-          for j in spotless quality archtests; do
-            r="${{ needs[j].result || 'skipped' }}"
-            echo "$j -> $r"
-            [[ "$r" == "failure" ]] && fail=1
-          done
-          exit $fail
+      - name: Check if any job failed
+        if: ${{ needs.spotless.result == 'failure' || needs.quality.result == 'failure' || needs.archtests.result == 'failure' }}
+        run: exit 1
