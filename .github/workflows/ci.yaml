@@ -23,23 +23,11 @@ jobs:
       - uses: dorny/paths-filter@v3
         id: filter
         with:
-          filters: .github/filters.yaml
+          filters: .github/filters-quality.yaml
 
-  inspect:
-    needs: changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print raw JSON
-        run: echo "filters=${{ needs.changes.outputs.modules }}"
-      - name: Pretty print + count
-        env:
-          FILTERS: ${{ needs.changes.outputs.filters }}
-        run: |
-          echo "$FILTERS" | jq -r .
-          echo "count: $(echo "$FILTERS" | jq -r 'length')"
+
 
   spotless:
-    needs: changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
