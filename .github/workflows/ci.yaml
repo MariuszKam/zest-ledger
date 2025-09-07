@@ -30,10 +30,10 @@ jobs:
       fail-fast: false
       matrix:
         module:
-          - modules/domain
-          - modules/application
-          - modules/adapters-in/rest
-          - modules/adapters-out/db
+          - modules:domain
+          - modules:application
+          - modules:adapters-in:rest
+          - modules:adapters-out:db
     steps:
       - uses: actions/checkout@v5
       - name: Gradle wrapper + JDK
