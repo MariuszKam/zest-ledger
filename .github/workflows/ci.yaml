@@ -100,6 +100,7 @@ jobs:
         run: |
           echo "filters: ${{ needs.changes.outputs.filters }}"
           echo "modules: ${{ needs.changes.outputs.modules }}"
+          echo "result: ${{ needs.quality.result }}"te
       - name: Check if any job failed
         if: ${{ needs.spotless.result == 'failure' || needs.quality.result == 'failure' || needs.archtests.result == 'failure' }}
         run: exit 1
