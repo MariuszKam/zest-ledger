@@ -1,0 +1,63 @@
+name: Security Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron: '0 2 * * 1'   # co poniedziałek 02:00 UTC (zmień wg potrzeb)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  security_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      deps: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: .github/filters-security.yaml
+
+  depcheck:
+    name: depcheck + sbom
+    runs-on: ubuntu-latest
+    needs: security_changes
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.security_changes.outputs.deps != '[]' }}
+    timeout-minutes: 25
+    env:
+      NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Gradle wrapper + JDK
+        uses: ./.github/actions/gradle-bootstrap
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Cache Dependency-Check data
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/owasp/dependency-check-data
+          key: ${{ runner.os }}-dc-data-${{ hashFiles('gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-dc-data-
+
+      - name: Security gate (aggregate + SBOM)
+        run: ./gradlew securityGate --stacktrace
+
+      - name: Upload depcheck & SBOM
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: depcheck-sbom
+          path: |
+            **/build/reports/dependency-check-report.*
+            **/build/reports/bom.*
+          if-no-files-found: ignore
+          retention-days: 7

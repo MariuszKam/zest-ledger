@@ -12,6 +12,8 @@ pitJunit = "1.2.1"
 gjf = "1.28.0"
 archunit = "1.4.1"
 assertj = "3.26.3"
+owasp = "12.1.3"
+cyclone = "2.3.1"
 
 [libraries]
 #noinspection UnusedVersionCatalogEntry
