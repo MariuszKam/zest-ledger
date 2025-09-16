@@ -32,7 +32,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Spotless Check
         run: ./gradlew spotlessCheck --stacktrace
-      - name: Run Jacoco Test
+      - name: Run Tests
         run: ./gradlew check --stacktrace
       - name: SonarCloud QualityGate
         run: ./gradlew sonarqube -Dsonar.qualitygate.wait=true
