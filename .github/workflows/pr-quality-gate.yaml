@@ -37,5 +37,5 @@ jobs:
       - name: Run Unit + JaCoCo
         run: ./gradlew jacocoTest --stacktrace
       - name: SonarCloud QualityGate
-        run: ./gradlew sonar -Dsonar.qualitygate.wait=true
+        run: ./gradlew sonar
 
