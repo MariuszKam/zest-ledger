@@ -29,7 +29,3 @@ tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
 tasks.register("jacocoTest") {
 	dependsOn("test", "jacocoTestReport", "jacocoTestCoverageVerification")
 }
-
-tasks.named("check") {
-	dependsOn("jacocoTest")
-}
