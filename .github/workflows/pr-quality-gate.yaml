@@ -16,9 +16,6 @@ jobs:
   pr-gate:
     if: github.event.pull_request.draft == false
     timeout-minutes: 15
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
     runs-on: ubuntu-latest
     steps:
       - name: Semantic PR Check
@@ -36,6 +33,8 @@ jobs:
         run: ./gradlew :modules:architecture-tests:test --stacktrace
       - name: Run Unit + JaCoCo
         run: ./gradlew jacocoTest --stacktrace
-      - name: SonarCloud QualityGate
-        run: ./gradlew sonar
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
