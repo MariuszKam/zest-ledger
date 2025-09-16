@@ -52,6 +52,10 @@ archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref
 testcontainers-junit = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql" }
 
+# --- SPRING WEB / ACTUATOR
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-actuator ={ module = "org.springframework.boot:spring-boot-starter-actuator" }
+
 # --- PERF (JMH) ---
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
