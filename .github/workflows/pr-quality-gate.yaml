@@ -1,0 +1,39 @@
+name: PR Quality Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pr-gate:
+    if: github.event.pull_request.draft == false
+    timeout-minutes: 15
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Semantic PR Check
+        uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/gradle-bootstrap
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Spotless Check
+        run: ./gradlew spotlessCheck --stacktrace
+      - name: Run Jacoco Test
+        run: ./gradlew check --stacktrace
+      - name: SonarCloud QualityGate
+        run: ./gradlew sonarqube -Dsonar.qualitygate.wait=true
+
