@@ -1,5 +1,3 @@
-import gradle.kotlin.dsl.accessors._2c95f20277cbe6143532f6e8d67e36cc.testImplementation
-
 plugins {
 	id("io.zestledger.java-conventions")
 	id("io.zestledger.spotless-conventions")

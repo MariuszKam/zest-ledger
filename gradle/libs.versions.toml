@@ -4,7 +4,7 @@ jdk = "21"
 # Build/quality
 spotless = "7.2.1"
 jacoco = "0.8.13"
-pitest = "1.15.0"
+pitest = "1.19.0-rc.1"
 pitJunit = "1.2.1"
 gjf = "1.28.0"
 archunit = "1.4.1"
@@ -51,6 +51,10 @@ archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref
 # Testcontainers
 testcontainers-junit = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql" }
+
+# --- SPRING WEB / ACTUATOR
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-actuator ={ module = "org.springframework.boot:spring-boot-starter-actuator" }
 
 # --- PERF (JMH) ---
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }

@@ -5,4 +5,5 @@ dependencies {
 	implementation("info.solidsoft.gradle.pitest:gradle-pitest-plugin:${libs.versions.pitest.get()}")
 	implementation("org.owasp.dependencycheck:org.owasp.dependencycheck.gradle.plugin:${libs.versions.owasp.get()}")
 	implementation("org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin:${libs.versions.cyclonedx.get()}")
+	implementation("org.springframework.boot:org.springframework.boot.gradle.plugin:${libs.versions.spring.boot.get()}")
 }
