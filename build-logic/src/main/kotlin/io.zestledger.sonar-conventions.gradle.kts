@@ -9,5 +9,6 @@ sonar {
 		property("sonar.projectName", "zest-ledger")
 		property("sonar.exclusions", "modules/architecture-tests/**")
 		property("sonar.java.source", "21")
+		property("sonar.coverage.exclusions", "**/*Application.java")
 	}
 }
