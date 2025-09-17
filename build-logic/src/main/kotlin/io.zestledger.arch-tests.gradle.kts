@@ -7,11 +7,9 @@ val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("lib
 
 dependencies {
 	testImplementation(libs.findLibrary("archunit-junit5").get())
-	testImplementation(libs.findLibrary("junit-jupiter").get())
 }
 
 tasks.withType(Test::class).configureEach {
-	useJUnitPlatform()
 	testLogging {
 		events("FAILED", "SKIPPED", "STANDARD_ERROR")
 		exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
