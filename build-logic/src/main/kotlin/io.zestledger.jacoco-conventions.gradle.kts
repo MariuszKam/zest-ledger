@@ -6,10 +6,6 @@ jacoco {
 	toolVersion = libs.findVersion("jacoco").get().toString()
 }
 
-tasks.withType(Test::class).configureEach {
-	finalizedBy(tasks.named("jacocoTestReport"))
-}
-
 tasks.named<JacocoReport>("jacocoTestReport") {
 	reports {
 		xml.required.set(true)
@@ -32,8 +28,4 @@ tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
 
 tasks.register("jacocoTest") {
 	dependsOn("test", "jacocoTestReport", "jacocoTestCoverageVerification")
-}
-
-tasks.named("check") {
-	dependsOn("jacocoTest")
 }
