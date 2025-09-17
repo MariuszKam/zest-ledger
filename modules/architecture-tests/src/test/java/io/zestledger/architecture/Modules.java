@@ -1,19 +1,19 @@
 package io.zestledger.architecture;
 
 public enum Modules {
-	DOMAIN("..domain.."),
-	APPLICATION("..application.."),
-	ADAPTERS_OUT("..out.."),
-	ADAPTERS_IN("..in.."),
-	PLATFORM("..platform..");
+    DOMAIN("..domain.."),
+    APPLICATION("..application.."),
+    ADAPTERS_OUT("..out.."),
+    ADAPTERS_IN("..in.."),
+    PLATFORM("..platform..");
 
-	private final String packageName;
+    private final String packageName;
 
-	Modules(String packageName) {
-		this.packageName = packageName;
-	}
+    Modules(String packageName) {
+        this.packageName = packageName;
+    }
 
-	public String getPackageName() {
-		return packageName;
-	}
+    public String getPackageName() {
+        return packageName;
+    }
 }
