@@ -37,7 +37,7 @@ jobs:
             **/build/reports/pitest
             build/reports/pitest
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 7
 
   depcheck:
     name: depcheck + sbom
@@ -68,4 +68,4 @@ jobs:
             **/build/reports/dependency-check-report.*
             **/build/reports/bom.*
           if-no-files-found: ignore
-          retention-days: 14
+          retention-days: 7

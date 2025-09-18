@@ -28,7 +28,7 @@ M0 requires a reliable, low-friction quality baseline so every vertical slice ca
 
 5) **Developer workflow**
 - Run Spotless before commit; keep the code warning-free under SonarLint in IDE.
-- Each PR must pass: unit + mutation + integration tests, Spotless, **and** SonarCloud Quality Gate.
+- Each PR must pass: Spotless, unit, and Jacoco, ArchUnit test, **and** SonarCloud Quality Gate.
 
 ## Consequences
 - **Pros:** one strong gate (SonarCloud) simplifies feedback and reduces noise; formatting is automated; DoD stays strict via tests, coverage, mutation, and security checks.
