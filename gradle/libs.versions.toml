@@ -25,6 +25,9 @@ postgres = "42.7.7"
 # JMH
 jmh = "1.37"
 
+# Logback
+logstash_logback = "8.1"
+
 [libraries]
 
 # --- PLATFORMS / BOMs ---
@@ -61,6 +64,9 @@ spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-s
 # --- PERF (JMH) ---
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+
+# --- Logback ---
+logstash-logback-encoder = {module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash_logback" }
 
 [bundles]
 test-base = ["junit-jupiter", "assertj"]
