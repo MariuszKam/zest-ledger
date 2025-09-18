@@ -36,6 +36,8 @@ jobs:
         run: ./gradlew :modules:architecture-tests:test --stacktrace
       - name: Run Unit + JaCoCo
         run: ./gradlew jacocoTest --stacktrace
+      - name: Mutation tests (PIT)
+        run: ./gradlew pitest --stacktrace
       - name: SonarCloud QualityGate
         run: ./gradlew sonar -i --stacktrace
 
