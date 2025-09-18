@@ -10,5 +10,6 @@ sonar {
 		property("sonar.exclusions", "modules/architecture-tests/**")
 		property("sonar.java.source", "21")
 		property("sonar.coverage.exclusions", "**/*Application.java")
+		property("sonar.coverage.jacoco.xmlReportPaths", "**/build/reports/jacoco/test/jacocoTestReport.xml")
 	}
 }

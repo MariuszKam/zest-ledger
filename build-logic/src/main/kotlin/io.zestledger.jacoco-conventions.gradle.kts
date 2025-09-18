@@ -15,6 +15,11 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 }
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+	classDirectories.setFrom(
+		files(classDirectories.files.map { dir ->
+			fileTree(dir) { exclude("**/*Application.class") }
+		})
+	)
 	violationRules {
 		rule {
 			limit {
