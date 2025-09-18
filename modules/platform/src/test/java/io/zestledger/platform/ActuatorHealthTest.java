@@ -12,9 +12,11 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class ActuatorHealthTest {
 
+    @Autowired WebTestClient client;
+
     @Test
     @DisplayName("Should return status Up when endpoint is called")
-    void shouldReturnUpStatusWhenHealthEndpointIsCalled(@Autowired WebTestClient client) {
+    void shouldReturnUpStatusWhenHealthEndpointIsCalled() {
         client.get()
                 .uri("/actuator/health")
                 .exchange()
