@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+	<springProperty scope="context" name="springAppName" source="spring.application.name"/>
+	<contextName>${springAppName:-zestledger}</contextName>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp/>
+				<logLevel/>
+				<loggerName/>
+				<threadName/>
+				<message/>
+				<logstashMarkers/>
+				<contextName/>
+				<arguments>
+					<includeNonStructuredArguments>false</includeNonStructuredArguments>
+				</arguments>
+				<mdc>
+					<includeMdcKeyName>traceId</includeMdcKeyName>
+					<includeMdcKeyName>spanId</includeMdcKeyName>
+					<includeMdcKeyName>corrId</includeMdcKeyName>
+				</mdc>
+				<stackTrace>
+					<throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+						<maxDepthPerThrowable>50</maxDepthPerThrowable>
+						<maxLength>8192</maxLength>
+						<shortenedClassNameLength>40</shortenedClassNameLength>
+					</throwableConverter>
+				</stackTrace>
+			</providers>
+		</encoder>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+</configuration>
