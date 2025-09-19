@@ -9,7 +9,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(packages = "io.zestledger", importOptions = ImportOption.DoNotIncludeTests.class)
-public class BootEntryPointRulesTest {
+class BootEntryPointRulesTest {
 
     private static final String SPRING_BOOT_APPLICATION =
             "org.springframework.boot.autoconfigure.SpringBootApplication";
