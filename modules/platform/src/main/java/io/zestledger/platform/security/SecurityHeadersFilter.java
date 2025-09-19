@@ -22,6 +22,8 @@ public class SecurityHeadersFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
+		setIfAbsent(response, "Content-Security-Policy", "default-src 'none'");
+
         setIfAbsent(response, "X-Content-Type-Options", "nosniff");
         setIfAbsent(response, "X-Frame-Options", "DENY");
         setIfAbsent(response, "Referrer-Policy", "no-referrer");

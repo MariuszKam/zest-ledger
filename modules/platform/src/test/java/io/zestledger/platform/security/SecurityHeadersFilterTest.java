@@ -22,23 +22,19 @@ class SecurityHeadersFilterTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain chain = mock(FilterChain.class);
 
-        when(response.containsHeader("X-Content-Type-Options")).thenReturn(false);
-        when(response.containsHeader("X-Frame-Options")).thenReturn(false);
-        when(response.containsHeader("Referrer-Policy")).thenReturn(false);
+		when(response.containsHeader("Content-Security-Policy")).thenReturn(false);
+		when(response.containsHeader("X-Content-Type-Options")).thenReturn(false);
+		when(response.containsHeader("X-Frame-Options")).thenReturn(false);
+		when(response.containsHeader("Referrer-Policy")).thenReturn(false);
 
-        filter.doFilterInternal(request, response, chain);
+		filter.doFilterInternal(request, response, chain);
 
-        verify(response).setHeader("X-Content-Type-Options", "nosniff");
-        verify(response).setHeader("X-Frame-Options", "DENY");
-        verify(response).setHeader("Referrer-Policy", "no-referrer");
-
-        verify(chain).doFilter(request, response);
-
-        InOrder inOrder = inOrder(response, chain);
-        inOrder.verify(response).setHeader("X-Content-Type-Options", "nosniff");
-        inOrder.verify(response).setHeader("X-Frame-Options", "DENY");
-        inOrder.verify(response).setHeader("Referrer-Policy", "no-referrer");
-        inOrder.verify(chain).doFilter(request, response);
+		InOrder order = inOrder(response);
+		order.verify(response).setHeader("Content-Security-Policy", "default-src 'none'");
+		order.verify(response).setHeader("X-Content-Type-Options", "nosniff");
+		order.verify(response).setHeader("X-Frame-Options", "DENY");
+		order.verify(response).setHeader("Referrer-Policy", "no-referrer");
+		verify(chain).doFilter(request, response);
     }
 
     @Test
@@ -47,15 +43,17 @@ class SecurityHeadersFilterTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain chain = mock(FilterChain.class);
 
-        when(response.containsHeader("X-Content-Type-Options")).thenReturn(true);
-        when(response.containsHeader("X-Frame-Options")).thenReturn(true);
-        when(response.containsHeader("Referrer-Policy")).thenReturn(true);
+		when(response.containsHeader("Content-Security-Policy")).thenReturn(true);
+		when(response.containsHeader("X-Content-Type-Options")).thenReturn(true);
+		when(response.containsHeader("X-Frame-Options")).thenReturn(true);
+		when(response.containsHeader("Referrer-Policy")).thenReturn(true);
 
-        filter.doFilterInternal(request, response, chain);
+		filter.doFilterInternal(request, response, chain);
 
-        verify(response, never()).setHeader("X-Content-Type-Options", "nosniff");
-        verify(response, never()).setHeader("X-Frame-Options", "DENY");
-        verify(response, never()).setHeader("Referrer-Policy", "no-referrer");
-        verify(chain).doFilter(request, response);
+		verify(response, never()).setHeader("Content-Security-Policy", "default-src 'none'");
+		verify(response, never()).setHeader("X-Content-Type-Options", "nosniff");
+		verify(response, never()).setHeader("X-Frame-Options", "DENY");
+		verify(response, never()).setHeader("Referrer-Policy", "no-referrer");
+		verify(chain).doFilter(request, response);
     }
 }
