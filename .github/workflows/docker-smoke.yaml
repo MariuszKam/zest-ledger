@@ -1,0 +1,47 @@
+name: docker-smoke
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/gradle-bootstrap
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build Docker image with Jib
+        env:
+          IMAGE: zestledger/app:${{ github.sha }}
+        run: ./gradlew :modules:platform:jibDockerBuild -Djib.to.image=$IMAGE
+      - name: Run container and smoke health
+        env:
+          IMAGE: zestledger/app:${{ github.sha }}
+          HOST_PORT: 8080
+          APP_PORT: 8080
+        run: |
+          docker run -d --rm --name zl-smoke -p ${HOST_PORT}:${APP_PORT} -e SERVER_PORT=${APP_PORT} $IMAGE
+          for i in {1..30}; do
+            BODY=$(curl -fsS "http://localhost:${HOST_PORT}/actuator/health" || true)
+            echo "$BODY" | tee /tmp/health.json || true
+            echo "$BODY" | grep -q '"status":"UP"' && exit 0
+            sleep 1
+          done
+          echo "Health not UP in 30s"
+          docker logs zl-smoke || true
+          exit 1
+      - name: Dump container logs on failure
+        if: failure()
+        run: docker logs zl-smoke || true
+      - name: Upload smoke artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-health-body
+          path: /tmp/health.json
