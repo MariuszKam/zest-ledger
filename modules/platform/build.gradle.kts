@@ -3,6 +3,7 @@ plugins {
 	id("io.zestledger.spotless-conventions")
 	id("io.zestledger.spring-boot-conventions")
 	id("io.zestledger.quality-test")
+	id("io.zestledger.jib-conventions")
 }
 
 dependencies {

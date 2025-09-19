@@ -17,6 +17,7 @@ sonar-qube = "6.3.1.5724"
 spring-boot = "3.5.5"
 testcontainers = "1.21.3"
 junit = "5.10.0"
+jib = "3.4.5"
 
 # DB
 flyway = "11.12.0"

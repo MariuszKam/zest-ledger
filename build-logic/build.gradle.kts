@@ -7,4 +7,5 @@ dependencies {
 	implementation("org.cyclonedx.bom:org.cyclonedx.bom.gradle.plugin:${libs.versions.cyclonedx.get()}")
 	implementation("org.springframework.boot:org.springframework.boot.gradle.plugin:${libs.versions.spring.boot.get()}")
 	implementation("org.sonarqube:org.sonarqube.gradle.plugin:${libs.versions.sonar.qube.get()}")
+	implementation("com.google.cloud.tools.jib:com.google.cloud.tools.jib.gradle.plugin:${libs.versions.jib.get()}")
 }
