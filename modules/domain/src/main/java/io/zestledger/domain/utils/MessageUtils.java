@@ -1,9 +1,11 @@
 package io.zestledger.domain.utils;
 
+import io.zestledger.domain.exception.UtilityClassException;
+
 public class MessageUtils {
 
     private MessageUtils() {
-        throw new IllegalStateException("Utility Class");
+        throw new UtilityClassException();
     }
 
     public static String messageForCannotBeNull(String item) {
