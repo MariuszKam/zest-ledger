@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo;
+package io.zestledger.domain.user.vo.id;
 
 import io.zestledger.domain.utils.MessageUtils;
 import java.util.Objects;
