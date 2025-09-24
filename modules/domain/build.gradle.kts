@@ -3,3 +3,7 @@ plugins {
 	id("io.zestledger.spotless-conventions")
 	id("io.zestledger.quality-test")
 }
+
+dependencies {
+	implementation(libs.common.langs)
+}

@@ -1,5 +1,6 @@
 [versions]
 jdk = "21"
+common-langs = "3.18.0"
 
 # Build/quality
 spotless = "7.2.1"
@@ -30,6 +31,8 @@ jmh = "1.37"
 logstash_logback = "8.1"
 
 [libraries]
+# --- COMMON LANGS ---
+common-langs = { module = "org.apache.commons:commons-lang3", version.ref = "common-langs"}
 
 # --- PLATFORMS / BOMs ---
 spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
