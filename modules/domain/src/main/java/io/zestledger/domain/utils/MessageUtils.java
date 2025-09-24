@@ -1,7 +1,5 @@
 package io.zestledger.domain.utils;
 
-import io.zestledger.domain.exception.UtilityClassException;
-
 public class MessageUtils {
 
     private MessageUtils() {
