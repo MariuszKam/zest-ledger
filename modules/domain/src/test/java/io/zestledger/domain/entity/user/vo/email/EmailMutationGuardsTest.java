@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.email;
+package io.zestledger.domain.entity.user.vo.email;
 
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 

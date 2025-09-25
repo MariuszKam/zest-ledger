@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.email;
+package io.zestledger.domain.entity.user.vo.email;
 
 class LocalEmailLengthException extends RuntimeException {
     public LocalEmailLengthException() {

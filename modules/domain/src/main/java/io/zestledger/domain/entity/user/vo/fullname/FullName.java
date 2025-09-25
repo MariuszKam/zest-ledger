@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.fullname;
+package io.zestledger.domain.entity.user.vo.fullname;
 
 import io.zestledger.domain.utils.MessageUtils;
 import java.text.Normalizer;

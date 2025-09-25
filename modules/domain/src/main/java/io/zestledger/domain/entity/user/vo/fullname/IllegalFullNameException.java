@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.fullname;
+package io.zestledger.domain.entity.user.vo.fullname;
 
 class IllegalFullNameException extends RuntimeException {
     public IllegalFullNameException(String message) {

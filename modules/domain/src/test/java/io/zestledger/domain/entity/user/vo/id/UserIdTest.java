@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.id;
+package io.zestledger.domain.entity.user.vo.id;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class UserIdTest {
+final class UserIdTest {
 
     private static final UUID expected = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
 

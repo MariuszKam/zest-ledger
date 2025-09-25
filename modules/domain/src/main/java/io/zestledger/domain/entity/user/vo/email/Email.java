@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.email;
+package io.zestledger.domain.entity.user.vo.email;
 
 import io.zestledger.domain.utils.MessageUtils;
 import java.util.Locale;

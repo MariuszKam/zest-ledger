@@ -1,4 +1,4 @@
-package io.zestledger.domain.user.vo.fullname;
+package io.zestledger.domain.entity.user.vo.fullname;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
